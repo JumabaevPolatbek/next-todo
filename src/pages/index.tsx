@@ -2,22 +2,26 @@ import ListTodo from '@/components/ListTodo';
 import TodoAdd from '@/components/TodoAdd';
 import { useAppSelector } from '@/redux/hook';
 import { selectTodo } from '@/redux/reducers';
-import { wrapper } from '@/redux/store';
 import { Todo } from '@/redux/types';
 import { GetServerSideProps } from 'next';
-
-export default function Home() {
-	const todos = useAppSelector(selectTodo);
-	console.log(todos);
+export default function Home(props: Todo[]) {
+	console.log(props);
+	// console.log('fetch',fetch('api/form'))
 	return (
 		<>
 			<TodoAdd />
-			{todos.map((todo) => (
-				<ListTodo
-					key={todo.id}
-					todo={todo}
-				/>
-			))}
 		</>
 	);
 }
+
+export const getServerSideProps: GetServerSideProps<{
+	todos: Todo[];
+}> = async () => {
+	const request = await fetch('http://localhost:3000/api/form')
+	const data = await request.json()
+	return {
+		props: {
+			todos: data,
+		},
+	};
+};

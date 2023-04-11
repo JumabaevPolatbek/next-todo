@@ -1,13 +1,9 @@
 // 'use client';
-import { useAppDispatch } from '@/redux/hook';
-import { addTodo } from '@/redux/reducers';
-import { makeStore } from '@/redux/store';
 import { Todo } from '@/redux/types';
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 const TodoAdd = () => {
-	const dispatch = useAppDispatch();
 	const { register, handleSubmit, reset } =
 		useForm<Todo>();
 	const formSubmit: SubmitHandler<
@@ -21,8 +17,7 @@ const TodoAdd = () => {
 			body: JSON.stringify(data),
 		}).then((res) => {
 			if (res.status === 200) {
-				reset();
-				dispatch(addTodo(data));
+				alert(data);
 			}
 		});
 	return (
